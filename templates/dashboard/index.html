@@ -1,0 +1,184 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="content overflow-auto">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Filter Section -->
+    <div class="row m-2">
+        <div class="col-sm-1">
+            <div class="form-group">
+                <label for="countyFilter">County:</label>
+                <select class="form-select" id="countyFilter">
+                    <!-- Options for county -->
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <label for="provinceFilter">Province:</label>
+                <select class="form-select" id="provinceFilter">
+                    <!-- Options for province -->
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <label for="districtFilter">District:</label>
+                <select class="form-select" id="districtFilter">
+                    <!-- Options for district -->
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <label for="facilityFilter">Facility:</label>
+                <select class="form-select" id="facilityFilter">
+                    <!-- Options for facilities -->
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="riskFilter">Group By:</label>
+                <select class="form-select" id="group_by">
+                    <option value="gender">Gender</option>
+                    <option value="risk_level">Risk Level</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" class="form-control" id="startDate">
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group" class="d-inline-block">
+                <label for="endDate">End Date:</label>
+                <input type="date" class="form-control" id="endDate">
+            </div>
+        </div>
+        <div class="col-sm-2 mb-0 mt-4 pt-2">
+          <form id="applyFilterForm" class="d-inline-block">
+            <button type="submit" class="btn btn-primary" id="filterBtn"><i class="fa fa-filter"></i>Apply Filter</button>
+        </form>
+      </div>
+    </div>
+    <!-- /.row -->
+    <!-- Cards -->
+    <div class="row ml-2 mr-2">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3 id="totalFacilities">0</h3>
+              <p>Facilities</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-hospital"></i>
+            </div>
+            <a href="/admin/datamanager/facilities/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3 id="totalPatients">0<sup style="font-size: 20px"></sup></h3>
+              <p>Patients</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-users"></i>
+            </div>
+            <a href="/admin/datamanager/patients/" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3 id="totalInitialVisits">0</h3>
+              <p>Initial Visits</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-briefcase"></i>
+            </div>
+            <a href="/admin/datamanager/htnvisits/?visit_type__exact=initial&q=" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3 id="totalFollowupVisits">0</h3>
+              <p>Follow Up Visits</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="/admin/datamanager/htnvisits/?visit_type__exact=followup&q=" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+    <!--end cards-->
+    <!-- Main content -->
+      <div class="container-fluid">
+        <div class="row mb-4">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title">Blod Pressure Control</h3>
+                  <a href="javascript:void(0);">View Report</a>
+                </div>
+              </div>
+              <div class="card-body">
+                  <figure class="highcharts-figure">
+                    <div id="bp_control"></div>
+                    <p class="d-none p-2 rounded bg-warning" id="graph_banner">You need to run analytics to be able to view this graph. Click <a href="{% url 'data_index' %}" class="link">here</a> to proceed.</p>
+                  </figure>                
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title">Blod Pressure Control Medicine Availability</h3>
+                  <a href="javascript:void(0);">View Report</a>
+                </div>
+              </div>
+              <div class="card-body">
+                <figure class="highcharts-figure">
+                  <div id="bp_control_meds"></div>
+                  <p class="d-none" id="graph_banner">You need to run analytics to be able to view this graph. Click <a href="{% url 'data_index' %}" class="link">here</a> to proceed.</p>
+                </figure>                
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+{% endblock content %}
